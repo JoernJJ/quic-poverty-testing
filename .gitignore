@@ -1,0 +1,43 @@
+# Raw measurement output (captures, logs, per-run manifests)
+results-own/
+
+# Data of the original artifact, available from Zenodo record 15396300
+quic-pacing-paper-main/analysis/build/
+quic-pacing-paper-main/results/detailed/
+quic-pacing-paper-main/results/pcaps/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# Implementation runtime residue
+**/dump.log
+**/sslkeys.log
+**/demo_ticket_store.bin
+**/demo_token_store.bin
+
+# Rebuildable source trees and native binaries
+/quic-implementations-current/quiche/quiche/
+/quic-implementations-current/quiche/quiche-server
+/quic-implementations-current/quiche/quiche-client
+/quic-implementations-current/quiche/VERSION
+/quic-implementations-current/picoquic/picoquic/
+/quic-implementations-current/picoquic/build/
+/quic-implementations-current/picoquic/picoquicdemo
+/quic-implementations-current/picoquic/VERSION
+/quic-implementations-current/ngtcp2/boringssl/
+/quic-implementations-current/ngtcp2/nghttp3/
+/quic-implementations-current/ngtcp2/ngtcp2/
+/quic-implementations-current/ngtcp2/build/
+/quic-implementations-current/ngtcp2/go/
+/quic-implementations-current/ngtcp2/go.tgz
+/quic-implementations-current/ngtcp2/http_server
+/quic-implementations-current/ngtcp2/http_client
+/quic-implementations-current/ngtcp2/VERSION
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,14 @@
+# Scripts run on Linux; keep LF on every platform.
+*.sh      text eol=lf
+*.py      text eol=lf
+*.env     text eol=lf
+*.patch   text eol=lf
+Makefile  text eol=lf
+experiment/pos_get_variable text eol=lf
+
+# Result tables are stored byte-for-byte.
+*.csv     -text
+
+*.pcap    binary
+*.pcapng  binary
+*.zst     binary

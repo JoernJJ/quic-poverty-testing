@@ -1,0 +1,14 @@
+#!/bin/sh
+# Minimal POS harness compatibility for the artifact runners.
+# POS_CC and POS_GSO are set by experiment/client-run.sh and run-campaign.sh.
+
+[ "$1" = "-r" ] && [ "$#" -eq 2 ] || exit 2
+
+case "$2" in
+  cc)  value=${POS_CC-} ;;
+  gso) value=${POS_GSO-} ;;
+  *)   exit 1 ;;
+esac
+
+[ -n "$value" ] || exit 1
+printf '%s\n' "$value"

@@ -1,0 +1,16 @@
+campaign,runs_total,runs_ok,runs_failed,arms,scenarios,cells,rates_mbit,rtts_ms,gso_values,kernels,capture_types
+arm-A,70,70,0,A,legacy-n1,7,40,40,0,7.0.0-28-generic,host
+current-pilot-fixed/arm-B-gso0,7,7,0,B,current-pilot-fixed,7,40,40,0,7.0.0-28-generic,host
+current-pilot/arm-B-gso0,7,4,3,B,current-pilot,7,40,40,0,7.0.0-28-generic,host
+n1-confirmatory/arm-A-gso0,70,70,0,A,n1-confirmatory,7,40,40,0,7.0.0-28-generic,host
+n1-contention-confirmatory-multimarker/arm-C-gso0,70,70,0,C,n1-contention-confirmatory-multimarker,7,40,40,0,7.0.0-28-generic,host
+n1-contention-confirmatory/arm-C-gso0,70,65,5,C,n1-contention-confirmatory,7,40,40,0,7.0.0-28-generic,host
+n1-contention-multimarker-pilot/arm-C-gso0,7,7,0,C,n1-contention-multimarker-pilot,7,40,40,0,7.0.0-28-generic,host
+n1-contention-pilot-fixed/arm-C-gso0,14,7,7,C,n1-contention-pilot-fixed,7,40,40,0,7.0.0-28-generic,host
+n1-contention-pilot/arm-C-gso0,7,7,0,C,n1-contention-pilot,7,40,40,0,7.0.0-28-generic,host
+n1-corrected/arm-A-gso0,70,70,0,A,n1-corrected,7,40,40,0,7.0.0-28-generic,host
+n1-current-confirmatory/arm-B-gso0,70,70,0,B,n1-current-confirmatory,7,40,40,0,7.0.0-28-generic,host
+pilot/aborted-unsnapshotted-arm-A-20260831/arm-A,1,1,0,A,legacy-n1,1,40,40,0,7.0.0-28-generic,host
+pilot/final-mini-block-20260831/arm-A,14,14,0,A,legacy-n1,7,40,40,0,7.0.0-28-generic,host
+pilot/mini-block-20260831/arm-A,28,15,13,A,legacy-n1,7,40,40,0,7.0.0-28-generic,host
+pilot/restart-20260923/arm-C-gso0,7,7,0,C,restart-20260923,7,40,40,0,7.0.0-30-generic,host
