@@ -1,8 +1,11 @@
 #!/bin/bash
 # Candidate hardware-timestamped self-capture of server egress.
 #
-# Host egress capture may expose GSO aggregates before NIC segmentation, so a
-# switch-mirror capture is required for GSO-on wire-segment timing.
+# Use as primary IPG/PTL data for GSO-disabled runs only after matched validation
+# against an external switch-mirror capture. Host egress capture may expose GSO
+# aggregates before NIC segmentation, so mirror capture is required for GSO-on
+# wire-segment timing. See the repository-root DEVICE-PLAN.md and
+# METHOD-AND-EXPERIMENT-PLAN.md.
 #
 # Usage:
 #   ./capture.sh start <label> <rep>  -> local/captures/<label>/rep<rep>.pcap

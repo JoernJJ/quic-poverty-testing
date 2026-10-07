@@ -12,3 +12,6 @@ experiment/pos_get_variable text eol=lf
 *.pcap    binary
 *.pcapng  binary
 *.zst     binary
+
+# Preserve the verified result bundle checksums.
+/analysis-own/build/rt-n1-20260930/* -text

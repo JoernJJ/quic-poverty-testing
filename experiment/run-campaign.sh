@@ -11,7 +11,7 @@
 # This prevents results from different caps, RTTs or batching modes from being
 # silently mixed into one campaign.
 #
-# Design:
+# Design decisions that are deliberate and should not be "simplified":
 #
 #   * Blocked randomisation. Each repetition block contains every cell exactly
 #     once, in an order derived from a stored seed. Running ten repetitions of
@@ -25,7 +25,7 @@
 #     capture drops, packet count, no frame above the MTU, and for quiche cells
 #     an explicit confirmation that pacing was actually enabled. A quiche server
 #     that fails to set SO_TXTIME continues unpaced while printing only a debug
-#     message.
+#     message, which is the single most dangerous silent failure in this study.
 
 set -uo pipefail
 source "$(dirname "$(readlink -f "$0")")/env.sh"
@@ -483,7 +483,10 @@ PY
 
 # ------------------------------------------------------------------ main
 FAILED_RUNS=0
-SENDER_REALTIME="$(cat /sys/kernel/realtime 2>/dev/null || echo 0)"
+# Match preflight: mainline RT may omit the legacy sysfs attribute.
+SENDER_REALTIME="$(cat /sys/kernel/realtime 2>/dev/null || {
+  uname -v | grep -qw PREEMPT_RT && echo 1 || echo 0
+})"
 SENDER_NTP_SYNC="$(timedatectl show -p NTPSynchronized --value 2>/dev/null || echo unknown)"
 SENDER_OS="$(. /etc/os-release 2>/dev/null; echo "${PRETTY_NAME:-unknown}")"
 CLIENT_KERNEL="unknown"; CLIENT_REALTIME="unknown"; CLIENT_NTP_SYNC="unknown"; CLIENT_OS="unknown"
@@ -493,7 +496,9 @@ if [ "$DRY" -eq 0 ]; then
     "$EXP_DIR/preflight.sh" >"$CAMPAIGN/preflight-$(date -u +%Y%m%dT%H%M%SZ).log" 2>&1 \
     || exp_die "preflight failed; see $CAMPAIGN/preflight-*.log"
   CLIENT_KERNEL="$(ssh_client "uname -r")"
-  CLIENT_REALTIME="$(ssh_client "cat /sys/kernel/realtime 2>/dev/null || echo 0")"
+  CLIENT_REALTIME="$(ssh_client "cat /sys/kernel/realtime 2>/dev/null || {
+    uname -v | grep -qw PREEMPT_RT && echo 1 || echo 0
+  }")"
   CLIENT_NTP_SYNC="$(ssh_client "timedatectl show -p NTPSynchronized --value 2>/dev/null || echo unknown")"
   CLIENT_OS="$(ssh_client ". /etc/os-release 2>/dev/null; echo \"\${PRETTY_NAME:-unknown}\"")"
 fi

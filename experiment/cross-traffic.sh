@@ -6,7 +6,8 @@
 #   ./cross-traffic.sh stop            stop it and finalize the JSON
 #
 # The competing flow travels sender -> client, sharing the receiver-side
-# drop-tail bottleneck queue with QUIC.
+# drop-tail bottleneck queue with QUIC. This extends the idle-link baseline with
+# contention; it does not assume that pacing has no effect on an idle link.
 #
 # The campaign runner starts the flow CROSS_LEAD_S seconds before QUIC. After a
 # successful client/marker pipeline, it waits CROSS_TAIL_S nonnegative seconds

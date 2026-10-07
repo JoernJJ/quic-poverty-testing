@@ -1,0 +1,4 @@
+campaign,runs_total,runs_ok,runs_failed,arms,scenarios,cells,rates_mbit,rtts_ms,gso_values,kernels,capture_types
+arm-A-gso0,70,70,0,A,rt-n1-20260930,7,40,40,0,6.8.1-1015-realtime,host
+arm-B-gso0,70,70,0,B,rt-n1-20260930,7,40,40,0,6.8.1-1015-realtime,host
+arm-C-gso0,70,70,0,C,rt-n1-20260930,7,40,40,0,6.8.1-1015-realtime,host

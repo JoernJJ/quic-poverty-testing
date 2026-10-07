@@ -6,8 +6,8 @@
 #
 # It drives the artifact's unmodified run-client.sh through the same environment
 # the POS harness would provide, so the client side of a run is byte-for-byte
-# the upstream code path. On the Pi, the artifact-era trees are built with
-# ../reproduction/build-pi-aarch64.sh.
+# the upstream code path. The Pi's copies of run-client.sh are the aarch64
+# adaptations described in ../reproduction-notes.md section 5.
 #
 # Contract: exit 0 only if the client exited 0 AND the downloaded file has
 # exactly TESTFILE_BYTES bytes. Every other outcome is a failed run, never a

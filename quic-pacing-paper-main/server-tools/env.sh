@@ -11,7 +11,7 @@ LOCAL="$REPO/local"                                    # runtime data (gitignore
 # Toolchain + pos_get_variable shim on PATH
 export PATH="$HOME/bin:$HOME/.cargo/bin:$HOME/.local/go-sdk/go/bin:$PATH"
 
-# Measurement network (VLAN-isolated switch, no router in path)
+# Measurement network (VLAN-isolated switch, no Fritzbox in path)
 export IFACE="${IFACE:-enp7s0}"
 export SERVER_IP="${SERVER_IP:-10.0.0.2}"
 export CLIENT_IP="${CLIENT_IP:-10.0.0.1}"

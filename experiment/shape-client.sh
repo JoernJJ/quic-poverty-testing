@@ -9,10 +9,10 @@
 # WHY THE BOTTLENECK IS HERE AND NOT ON THE SENDER
 # ------------------------------------------------
 # A shaper on the sender's egress replaces the QUIC library's own packet
-# spacing with the shaper's spacing (every gap collapses to the TBF
-# serialization interval, ~0.296 ms at 40 Mbit/s). The sender stays unshaped so
-# its egress capture sees the library's pacing; the bottleneck lives on client
-# ingress, as in the anchor paper.
+# spacing with the shaper's spacing: a pilot run collapsed every observed gap
+# to ~0.296 ms, which measured TBF instead of the library. The sender must stay
+# unshaped so its egress capture sees the library's pacing. The bottleneck
+# therefore lives on client ingress, exactly as in the anchor paper.
 #
 # PATH
 # ----
@@ -71,7 +71,7 @@ up() {
 
   # The artifact sizes this leaf for rate * full RTT / 1392-byte packet. At N1
   # this is 143 packets. It contains both propagation-delay occupancy and the
-  # bottleneck backlog.
+  # bottleneck backlog, which is why adding another two-BDP TBF limit was wrong.
   tc qdisc add dev "$IFB" parent 1:1 handle 10: netem \
     delay "${HALF_RTT_MS}ms" limit "${BOTTLENECK_LIMIT_PKTS}"
 

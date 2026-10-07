@@ -1,11 +1,11 @@
 #!/bin/bash
-# Build ngtcp2 + quiche on the Raspberry Pi (aarch64), all fixes baked in.
-BASE=$HOME/pe/quic-implementations
-LOGD=$HOME/pe/build
+# Build ngtcp2 + quiche on the Raspberry Pi (aarch64, user joern), all fixes baked in.
+BASE=/home/joern/pe/quic-implementations
+LOGD=/home/joern/pe/build
 mkdir -p "$LOGD"
 RUST_TARGET=aarch64-unknown-linux-gnu
 TOOLCHAIN=nightly-2024-11-11-aarch64-unknown-linux-gnu
-export CARGO_HOME=$HOME/.cargo RUSTUP_HOME=$HOME/.rustup
+export CARGO_HOME=/home/joern/.cargo RUSTUP_HOME=/home/joern/.rustup
 echo "==== PI BUILD START $(date) ===="
 
 ########## ngtcp2 (aarch64) ##########
@@ -63,7 +63,7 @@ echo "ngtcp2: $(grep -o 'RESULT: NGTCP2_[A-Z]*' $LOGD/ngtcp2.log | tail -1)"
   git checkout 5bccde6ead15688326e05364abab51a910242423
   git submodule update --init --recursive           # populate deps/boringssl
   cp -r ../setup/quiche/* .
-  cp $HOME/pe/quiche-Cargo.lock Cargo.lock     # server's pinned lock (arch-independent)
+  cp /home/joern/pe/quiche-Cargo.lock Cargo.lock     # server's pinned lock (arch-independent)
   cargo fetch --locked                               # fetch exact locked deps (vanilla nix)
   # re-apply patched nix AFTER fetch so it isn't clobbered
   REG=$(ls -d "$CARGO_HOME"/registry/src/index.crates.io-*/ | head -1)

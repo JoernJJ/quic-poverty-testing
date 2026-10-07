@@ -4,7 +4,7 @@
 #   ./capture.sh start <outfile>   begin capturing, block until tcpdump is ready
 #   ./capture.sh stop              SIGINT, flush, and report kernel drops
 #
-# Differences from the artifact's server-tools/capture.sh:
+# Differences from the artifact's server-tools/capture.sh, all of which matter:
 #   * snaplen 96 instead of full frames: 9 MB instead of 107 MB per run, while
 #     the pcap record still carries the original on-wire length that the
 #     wire-time bound needs;

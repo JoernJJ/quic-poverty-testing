@@ -6,7 +6,7 @@
 # Everything here is overridable from the environment, so a single run can be
 # reproduced by exporting the same values recorded in its manifest.
 #
-# Role assignment:
+# Role assignment (see ../REVIEW-AND-PLAN-2026-08-30.md and ../DEVICE-PLAN.md):
 #   sender   = Ubuntu desktop, Intel I226-V (igc), server + self-capture
 #   client   = Raspberry Pi 4, bcmgenet, receiver + ingress bottleneck
 #   mirror   = only needed for the 5-run capture calibration, not the campaign
@@ -30,7 +30,7 @@ export PORT="${PORT:-4433}"
 # Management path to the client. MUST NOT be the measurement interface:
 # the Pi has a single Ethernet port, so use its WiFi for SSH.
 export CLIENT_SSH="${CLIENT_SSH:-pi-mgmt}"
-export CLIENT_PROJECT="${CLIENT_PROJECT:-/home/pi/pe-paper}"
+export CLIENT_PROJECT="${CLIENT_PROJECT:-/home/joern/PE/paper}"
 # Optional override. When empty, run-campaign.sh selects the Pi-local artifact
 # or current tree from the arm, preventing a mixed-version sender/client pair.
 export CLIENT_IMPL_DIR="${CLIENT_IMPL_DIR:-}"
@@ -66,18 +66,20 @@ export TESTCASE="${TESTCASE:-goodput}"
 # would cost ~107 MB per run instead of ~9 MB.
 export CAP_SNAPLEN="${CAP_SNAPLEN:-96}"
 export CAP_BUFFER_KIB="${CAP_BUFFER_KIB:-32768}"
-# `adapter_unsynced` is offered by the I226-V but yielded zero egress packets.
-# `host` captures every egress packet, but timestamps are taken above the NIC.
+# `adapter_unsynced` is offered by the I226-V but yielded zero egress packets
+# in the live calibration. `host` captures every egress packet, but timestamps
+# are above the NIC; timestamp selection alone does not establish cross-cell validity.
 export CAP_TSTYPE="${CAP_TSTYPE:-host}"
 
 # Application-level UDP GSO is an explicit campaign factor, but this runner
 # supports only APP_GSO=0 with non-wire-equivalent sender-host capture.
+# Declaring external capture cannot enable GSO; that integration does not exist.
 export APP_GSO="${APP_GSO:-0}"
 export CAPTURE_POINT="${CAPTURE_POINT:-sender-host}"
 export CAPTURE_WIRE_EQUIVALENT="${CAPTURE_WIRE_EQUIVALENT:-0}"
 
-# The rebuilt artifact retains quiche's original spurious-congestion rollback
-# (not the anchor paper's "SF" patch). The state is recorded in every manifest.
+# The rebuilt artifact currently retains quiche's original spurious-congestion
+# rollback. Record this state; never compare it as the paper's "SF" patch.
 export QUICHE_SPURIOUS_ROLLBACK="${QUICHE_SPURIOUS_ROLLBACK:-on}"
 
 # ------------------------------------------------------------ version arms

@@ -5,6 +5,8 @@
 #   ./preflight.sh --fix      additionally disable offloads and set the client
 #                             receive buffer
 #
+# Every check here corresponds to a failure that has already happened in this
+# project or to a validity requirement from ../REVIEW-AND-PLAN-2026-08-30.md.
 # Run it before each session and after any reboot, kernel update or cable move.
 
 set -uo pipefail
@@ -65,7 +67,8 @@ SPEED="$(cat "/sys/class/net/$SENDER_IFACE/speed" 2>/dev/null || echo '?')"
 [ "$SPEED" = "1000" ] && ok "link speed 1000 Mbit/s" \
   || bad "link speed is '$SPEED', expected 1000 (the wire-time bound assumes 1 Gbit/s)"
 
-# A multi-homed sender must not route measurement traffic over the management NIC.
+# The pilot lost a whole run set because a multi-homed host routed measurement
+# traffic over the management NIC.
 ROUTE_IF="$(ip -o route get "$CLIENT_IP" 2>/dev/null | sed -n 's/.* dev \([^ ]*\).*/\1/p')"
 [ "$ROUTE_IF" = "$SENDER_IFACE" ] && ok "route to $CLIENT_IP uses $SENDER_IFACE" \
   || bad "route to $CLIENT_IP uses '$ROUTE_IF', not $SENDER_IFACE"
@@ -142,7 +145,11 @@ else
 fi
 
 sec "Sender runtime controls"
-SENDER_RT="$(cat /sys/kernel/realtime 2>/dev/null || echo 0)"
+# Mainline RT kernels may omit the legacy realtime sysfs attribute.
+# Inspect the running kernel's build flags, never an installed package name.
+SENDER_RT="$(cat /sys/kernel/realtime 2>/dev/null || {
+  uname -v | grep -qw PREEMPT_RT && echo 1 || echo 0
+})"
 [ "$SENDER_RT" = "1" ] \
   && ok "PREEMPT_RT kernel active" \
   || warn "PREEMPT_RT not active; anchor used 6.1.112-rt30"
@@ -245,7 +252,9 @@ if ssh_client true 2>/dev/null; then
   else
     warn "client clock not reported as synchronised"
   fi
-  CLIENT_RT="$(ssh_client "cat /sys/kernel/realtime 2>/dev/null || echo 0")"
+  CLIENT_RT="$(ssh_client "cat /sys/kernel/realtime 2>/dev/null || {
+    uname -v | grep -qw PREEMPT_RT && echo 1 || echo 0
+  }")"
   [ "$CLIENT_RT" = "1" ] \
     && ok "PREEMPT_RT kernel active" \
     || warn "PREEMPT_RT not active; anchor used 6.1.112-rt30"
@@ -320,4 +329,4 @@ fi
 
 printf '\n== Summary: %d pass, %d warn, %d fail\n' "$PASS" "$WARN" "$FAIL"
 [ "$FAIL" -eq 0 ] || { echo "Do not start a campaign with failures outstanding."; exit 1; }
-echo "Preflight clean."
+echo "Preflight clean. Warnings must still be recorded in the paper's validity section."
